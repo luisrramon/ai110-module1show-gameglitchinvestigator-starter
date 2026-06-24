@@ -11,8 +11,14 @@ It wrote the code, ran away, and now the game is unplayable.
 
 ## 🛠️ Setup
 
-1. Install dependencies: `pip install -r requirements.txt`
-2. Run the broken app: `python -m streamlit run app.py`
+1. Create a virtual environment: `python3 -m venv .venv`
+2. Activate it: `source .venv/bin/activate`
+3. Install dependencies: `python -m pip install -r requirements.txt`
+4. Run the broken app: `python -m streamlit run app.py`
+
+If you prefer not to activate the environment, you can also run:
+
+`./.venv/bin/python -m streamlit run app.py`
 
 ## 🕵️‍♂️ Your Mission
 
@@ -25,19 +31,27 @@ It wrote the code, ran away, and now the game is unplayable.
 
 ## 📝 Document Your Experience
 
-- [ ] Describe the game's purpose.
-- [ ] Detail which bugs you found.
-- [ ] Explain what fixes you applied.
+- [x] Describe the game's purpose: Streamlit number guessing game where players find a secret number within a limited number of attempts, receiving hints and earning a score based on attempt efficiency.
+- [x] Detail which bugs you found: 
+  1. Inverted hint logic due to type-casting in comparison (guess above secret said "Go HIGHER" instead of "Go LOWER").
+  2. New Game reset incomplete—did not clear attempts, status, history, or score.
+- [x] Explain what fixes you applied:
+  1. Refactored game logic into logic_utils.py.
+  2. Fixed check_guess to compare guess and secret as integers; corrected hint directions.
+  3. Fixed New Game button to fully reset all session state.
+  4. Updated tests to verify both outcome and message content.
 
 ## 📸 Demo Walkthrough
 
 Describe your fixed game in numbered steps so a reader can follow along without watching a video:
 
-1. <!-- Describe this step -->
-2. <!-- Describe this step -->
-3. <!-- Describe this step -->
-4. <!-- Describe this step -->
-5. <!-- Add more steps as needed -->
+1. Guess 40 → Too Low, Go HIGHER (7 attempts left)
+2. Guess 70 → Too High, Go LOWER (6 attempts left)
+3. Guess 60 → Too High, Go LOWER (5 attempts left)
+4. Guess 55 → Too High, Go LOWER (4 attempts left)
+5. Guess 52 → Too High, Go LOWER (3 attempts left)
+6. Guess 50 → Win, Correct! Score: 70 points.
+7. Click New Game → Session state resets; secret changes, attempts = 0, history cleared, ready to play again.
 
 **Screenshot** *(optional)*: <!-- Insert a screenshot of your fixed, winning game here -->
 
@@ -48,6 +62,19 @@ Describe your fixed game in numbered steps so a reader can follow along without 
 # pytest tests/
 # ========================= X passed in 0.XXs =========================
 ```
+luisramon@Mac ai110-module1show-gameglitchinvestigator-starter % ./.venv/bin/python -m pytest -v
+===================== test session starts ======================
+platform darwin -- Python 3.12.0, pytest-9.1.1, pluggy-1.6.0 --/Users/luisramon/ai110-module1show-gameglitchinvestigator-starter/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/luisramon/ai110-module1show-gameglitchinvestigator-starter
+plugins: anyio-4.14.0
+collected 3 items                                              
+
+tests/test_game_logic.py::test_winning_guess PASSED      [ 33%]
+tests/test_game_logic.py::test_guess_too_high PASSED     [ 66%]
+tests/test_game_logic.py::test_guess_too_low PASSED      [100%]
+
+====================== 3 passed in 0.01s =======================
 
 ## 🚀 Stretch Features
 
